@@ -2,10 +2,10 @@
 #include <HTTPClient.h>
 
 // credentials to log onto wifi
-const char* ssid = "PINOIBLUE";
-const char* password = "man1ya2kis3ka456";
+const char* ssid = "wifiname";
+const char* password = "wifipassword";
 
-const char* serverUrl = "http://89.117.21.206:5000/endpoint";  // Replace with your server's IP
+const char* serverUrl = "http://0.0.0.0:5000/endpoint";  // Replace with your server's IP
 
 void setup() {
   Serial.begin(115200);
