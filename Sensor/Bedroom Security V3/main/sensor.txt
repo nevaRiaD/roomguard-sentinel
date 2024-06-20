@@ -44,3 +44,5 @@ void loop() {
   oldButtonState = buttonState;
 */
 }
+
+// Sensor delay varies based on what alarm detects
