@@ -1,22 +1,39 @@
 #include "myFunctions.h"
-#include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
 
+bool laserState = false;
+bool buttonState = HIGH;
+bool lastButtonState = HIGH;
+
 void laserSensor() {
-	if (digitalRead(buttonPin) == LOW) {
-		digitalWrite(laserPin, HIGH);
-		if (digitalRead(laserSensorPin) != 0) {
-			alarmMessage = "laser alarm: ALARM DETECTION";
-		}
-		else {
-			alarmMessage = "laser alarm: set";
-		}
-	}
-	else {
-		digitalWrite(laserPin, LOW);
-		alarmMessage = "laser alarm: off";
-	}
+  buttonState = digitalRead(buttonPin);
+
+  // Check if button state changed
+  if (buttonState == LOW && lastButtonState == HIGH) {
+    // Toggle the laser state
+    laserState = !laserState;
+  }
+
+  // Update the laser based on the current laserState
+  if (laserState) {
+    digitalWrite(laserPin, HIGH);
+    if (digitalRead(laserSensorPin) != 0) {
+      digitalWrite(ledPin, HIGH);
+      alarmMessage = "laser alarm: set";
+    }
+    else {
+      digitalWrite(ledPin, LOW);
+      alarmMessage = "laser alarm: ALARM DETECTION";
+    }
+  }
+  else {
+    digitalWrite(laserPin, LOW);
+    alarmMessage = "laser alarm: off";
+  }
+
+  // Save current button state as the last button state for next loop iteration
+  lastButtonState = buttonState;
 }
 
 void serverConnection() {
@@ -32,7 +49,7 @@ void serverConnection() {
 			HTTPClient http;
 			http.begin(serverUrl);
 			http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-			int httpResponseCode = http.POST(alarmMessage);
+			int httpResponseCode = http.POST("laser alarm: CONNECTED TO SERVER");
 			
 			if (httpResponseCode > 0) {
 				String response = http.getString();
