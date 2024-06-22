@@ -50,7 +50,10 @@ void serverConnection() {
 			HTTPClient http;
 			http.begin(serverUrl);
 			http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-			int httpResponseCode = http.POST("laser alarm: CONNECTED TO SERVER");
+      String postData = "message= " + String(alarmMessage); // Form-encode the data
+      Serial.print("Sending message: ");
+      Serial.println(postData);
+			int httpResponseCode = http.POST(postData);
 			
 			if (httpResponseCode > 0) {
 				String response = http.getString();

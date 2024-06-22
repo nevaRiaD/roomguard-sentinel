@@ -17,6 +17,7 @@ const long interval = 10000;
 
 void setup() {
   Serial.begin(115200);
+  setWiFiCredentials("ssid", "password");
   pinMode(buttonPin, INPUT);
   pinMode(laserSensorPin, INPUT);
   pinMode(ledPin, OUTPUT);
