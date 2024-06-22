@@ -1,10 +1,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "myFunctions.h"
-
-// credentials to log onto wifi
-const char* ssid = "PINOIBLUE";
-const char* password = "man1ya2kis3ka456";
+#include "wifiCredentials.h"
 
 // pins for hardware
 const int laserPin = 13;
